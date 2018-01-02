@@ -53,3 +53,17 @@ Thankfully, LSTMs don’t have this problem!
 ### How to Visualize Your Recurrent Neural Network with Attention in Keras
 
 [https://medium.com/datalogue/attention-in-keras-1892773a4f22](https://medium.com/datalogue/attention-in-keras-1892773a4f22)
+
+
+### Long Short-Term Memory Recurrent Neural Network Architectures for Large Scale Acoustic Modeling 
+
+[https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43905.pdf](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43905.pdf)
+
+### A Beginner’s Guide to Recurrent Networks and LSTMs
+
+[https://deeplearning4j.org/lstm.html](https://deeplearning4j.org/lstm.html)
+
+### Stacked Long Short-Term Memory Networks
+
+[https://machinelearningmastery.com/stacked-long-short-term-memory-networks/](https://machinelearningmastery.com/stacked-long-short-term-memory-networks/)
+
