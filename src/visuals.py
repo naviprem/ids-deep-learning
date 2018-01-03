@@ -121,4 +121,76 @@ def plot_confusion_matrix(cm, classes,
     pl.tight_layout()
     pl.ylabel('True label')
     pl.xlabel('Predicted label')
-    
+
+def pca_results(good_data, pca):
+    '''
+    Create a DataFrame of the PCA results
+    Includes dimension feature weights and explained variance
+    Visualizes the PCA results
+    '''
+
+    # Dimension indexing
+    dimensions = dimensions = ['Dimension {}'.format(i) for i in range(1, len(pca.components_) + 1)]
+
+    # PCA components
+    components = pd.DataFrame(np.round(pca.components_, 4), columns=good_data.keys())
+    components.index = dimensions
+
+    # PCA explained variance
+    ratios = pca.explained_variance_ratio_.reshape(len(pca.components_), 1)
+    variance_ratios = pd.DataFrame(np.round(ratios, 4), columns=['Explained Variance'])
+    variance_ratios.index = dimensions
+
+    # Create a bar plot visualization
+    fig, ax = plt.subplots(figsize=(14, 8))
+
+    # Plot the feature weights as a function of the components
+    components.plot(ax=ax, kind='bar');
+    ax.set_ylabel("Feature Weights")
+    ax.set_xticklabels(dimensions, rotation=0)
+
+    # Display the explained variance ratios
+    for i, ev in enumerate(pca.explained_variance_ratio_):
+        ax.text(i - 0.40, ax.get_ylim()[1] + 0.05, "Explained Variance\n          %.4f" % (ev))
+
+    # Return a concatenated DataFrame
+    return pd.concat([variance_ratios, components], axis=1)
+
+
+def biplot(good_data, reduced_data, pca):
+    '''
+    Produce a biplot that shows a scatterplot of the reduced
+    data and the projections of the original features.
+
+    good_data: original data, before transformation.
+               Needs to be a pandas dataframe with valid column names
+    reduced_data: the reduced data (the first two dimensions are plotted)
+    pca: pca object that contains the components_ attribute
+
+    return: a matplotlib AxesSubplot object (for any additional customization)
+
+    This procedure is inspired by the script:
+    https://github.com/teddyroland/python-biplot
+    '''
+
+    fig, ax = pl.subplots(figsize=(14, 8))
+    # scatterplot of the reduced data
+    ax.scatter(x=reduced_data.loc[:, 'Dimension 1'], y=reduced_data.loc[:, 'Dimension 2'],
+               facecolors='b', edgecolors='b', s=70, alpha=0.5)
+
+    feature_vectors = pca.components_.T
+
+    # we use scaling factors to make the arrows easier to see
+    arrow_size, text_pos = 7.0, 8.0,
+
+    # projections of the original features
+    for i, v in enumerate(feature_vectors):
+        ax.arrow(0, 0, arrow_size * v[0], arrow_size * v[1],
+                 head_width=0.2, head_length=0.2, linewidth=2, color='red')
+        ax.text(v[0] * text_pos, v[1] * text_pos, good_data.columns[i], color='black',
+                ha='center', va='center', fontsize=18)
+
+    ax.set_xlabel("Dimension 1", fontsize=14)
+    ax.set_ylabel("Dimension 2", fontsize=14)
+    ax.set_title("PC plane with original feature projections.", fontsize=16);
+    return ax

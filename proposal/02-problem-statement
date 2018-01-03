@@ -2,3 +2,14 @@
 
 Student clearly describes the problem that is to be solved. The problem is well defined and has at least 
 one relevant potential solution. Additionally, the problem is quantifiable, measurable, and replicable.
+
+## Problem Statement
+
+Governments and Organizations have valuable information stored on computer networks, 
+which has made intrusion detection the most critical focus area in every CIO's office.
+
+A variety of studies have been carried out in the field of network security, intrusion detection and resolution. 
+
+While traditional intrusion detection methods have
+proven to be efficient at detecting intrusions based on known parameters, they are not very effective
+in cases involving new types of intrusions.

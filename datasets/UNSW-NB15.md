@@ -31,3 +31,13 @@ For more information, please contact the authors:
 ### Statistical analysis of the UNSW-NB15 data set
 
 [https://www.researchgate.net/publication/304847859_The_evaluation_of_Network_Anomaly_Detection_Systems_Statistical_analysis_of_the_UNSW-NB15_data_set_and_the_comparison_with_the_KDD99_data_set](https://www.researchgate.net/publication/304847859_The_evaluation_of_Network_Anomaly_Detection_Systems_Statistical_analysis_of_the_UNSW-NB15_data_set_and_the_comparison_with_the_KDD99_data_set)
+
+
+### NIDS using Machine Learning Classifiers on UNSW-NB15 and KDDCUP99 Datasets
+
+[https://www.ijarcce.com/upload/2017/april-17/IJARCCE%20102.pdf](https://www.ijarcce.com/upload/2017/april-17/IJARCCE%20102.pdf)
+
+
+### Attack Detection for Cyber Systems and Probabilistic State Estimation in Partially Observable Cyber Environments
+
+[https://repository.asu.edu/attachments/172771/content/Guha_asu_0010N_16211.pdf](https://repository.asu.edu/attachments/172771/content/Guha_asu_0010N_16211.pdf)

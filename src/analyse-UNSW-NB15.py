@@ -7,7 +7,7 @@ import visuals as vs
 
 do_data_preprocessing = False
 do_pca_analysis = True
-do_supervised_learning = False
+do_supervised_learning = True
 do_lstm_rnn = False
 
 if do_data_preprocessing:
@@ -96,22 +96,22 @@ if do_data_preprocessing:
     #######################################################################################################################
 
     # Apply Log Transformation to features. Display pairwise correlation before and after transformation
-    sns.heatmap(tr_features[numerical_features.keys()].corr())
-    plt.show()
+    # sns.heatmap(tr_features[numerical_features.keys()].corr())
+    # plt.show()
     tr_features_log_trans = pd.DataFrame(data = tr_features)
     tr_features_log_trans[numerical_features.keys()] = tr_features[numerical_features.keys()].apply(lambda x: np.log(x + 1))
-    sns.heatmap(tr_features_log_trans[numerical_features.keys()].corr())
-    plt.show()
-    tr_features_log_trans.to_csv("tr_features_log_trans.csv", index=False)
+    # sns.heatmap(tr_features_log_trans[numerical_features.keys()].corr())
+    # plt.show()
+    tr_features_log_trans.to_csv("../interim-files/tr_features_log_trans.csv", index=False)
 
 
-    sns.heatmap(te_features[numerical_features.keys()].corr())
-    plt.show()
+    # sns.heatmap(te_features[numerical_features.keys()].corr())
+    # plt.show()
     te_features_log_trans = pd.DataFrame(data = te_features)
     te_features_log_trans[numerical_features.keys()] = te_features[numerical_features.keys()].apply(lambda x: np.log(x + 1))
-    sns.heatmap(te_features_log_trans[numerical_features.keys()].corr())
-    plt.show()
-    te_features_log_trans.to_csv("te_features_log_trans.csv", index=False)
+    # sns.heatmap(te_features_log_trans[numerical_features.keys()].corr())
+    # plt.show()
+    te_features_log_trans.to_csv("../interim-files/te_features_log_trans.csv", index=False)
 
 
     # Normalize Numerical Features
@@ -119,41 +119,41 @@ if do_data_preprocessing:
     scaler = MinMaxScaler()
     tr_features_log_minmax_trans = pd.DataFrame(data = tr_features_log_trans)
     tr_features_log_minmax_trans[numerical_features.keys()] = scaler.fit_transform(tr_features_log_trans[numerical_features.keys()])
-    tr_features_log_minmax_trans.to_csv("tr_features_log_minmax_trans.csv", index=False)
+    tr_features_log_minmax_trans.to_csv("../interim-files/tr_features_log_minmax_trans.csv", index=False)
 
     from sklearn.preprocessing import MinMaxScaler
     scaler = MinMaxScaler()
     te_features_log_minmax_trans = pd.DataFrame(data = te_features_log_trans)
     te_features_log_minmax_trans[numerical_features.keys()] = scaler.fit_transform(te_features_log_trans[numerical_features.keys()])
-    te_features_log_minmax_trans.to_csv("te_features_log_minmax_trans.csv", index=False)
+    te_features_log_minmax_trans.to_csv("../interim-files/te_features_log_minmax_trans.csv", index=False)
 
     # One-hot encode categorical features
     tr_features_log_minmax_onehot_trans = pd.get_dummies(tr_features_log_minmax_trans)
-    tr_features_log_minmax_onehot_trans.to_csv("tr_features_log_minmax_onehot_trans.csv", index=False)
+    tr_features_log_minmax_onehot_trans.to_csv("../interim-files/tr_features_log_minmax_onehot_trans.csv", index=False)
     tr_features_count = list(tr_features_log_minmax_onehot_trans.columns)
     print ("{} total features after one-hot encoding in training set.".format(len(tr_features_count)))
 
     te_features_log_minmax_onehot_trans = pd.get_dummies(te_features_log_minmax_trans)
-    te_features_log_minmax_onehot_trans.to_csv("te_features_log_minmax_onehot_trans.csv", index=False)
+    te_features_log_minmax_onehot_trans.to_csv("../interim-files/te_features_log_minmax_onehot_trans.csv", index=False)
     te_features_count = list(te_features_log_minmax_onehot_trans.columns)
     print ("{} total features after one-hot encoding in testing set.".format(len(te_features_count)))
 
 
     # One hot encode attack labels
     tr_encoded_labels = pd.get_dummies(tr_attack_labels)
-    tr_encoded_labels.to_csv("tr_encoded_labels.csv", index=False)
+    tr_encoded_labels.to_csv("../interim-files/tr_encoded_labels.csv", index=False)
     tr_encoded_labels_count = list(tr_encoded_labels.columns)
     print ("{} total label columns after one-hot encoding in training set.".format(len(tr_encoded_labels_count)))
 
     te_encoded_labels = pd.get_dummies(te_attack_labels)
-    te_encoded_labels.to_csv("te_encoded_labels.csv", index=False)
+    te_encoded_labels.to_csv("../interim-files/te_encoded_labels.csv", index=False)
     te_encoded_labels_count = list(te_encoded_labels.columns)
     print ("{} total label columns after one-hot encoding in testing set.".format(len(te_encoded_labels_count)))
 
-    tr_binary_labels.to_csv("tr_binary_labels.csv", index=False)
-    te_binary_labels.to_csv("te_binary_labels.csv", index=False)
-    tr_attack_labels.to_csv("tr_attack_labels.csv", index=False)
-    te_attack_labels.to_csv("te_attack_labels.csv", index=False)
+    tr_binary_labels.to_csv("../interim-files/tr_binary_labels.csv", index=False)
+    te_binary_labels.to_csv("../interim-files/te_binary_labels.csv", index=False)
+    tr_attack_labels.to_csv("../interim-files/tr_attack_labels.csv", index=False)
+    te_attack_labels.to_csv("../interim-files/te_attack_labels.csv", index=False)
 
 
     X_train = pd.DataFrame(data=tr_features_log_minmax_onehot_trans)
@@ -167,14 +167,14 @@ if do_data_preprocessing:
 
 else:
 
-    X_train = pd.read_csv("tr_features_log_minmax_onehot_trans.csv")
-    X_test = pd.read_csv("te_features_log_minmax_onehot_trans.csv")
-    ye_train = pd.read_csv("tr_encoded_labels.csv")
-    ye_test  = pd.read_csv("te_encoded_labels.csv")
-    yb_train = pd.read_csv("tr_binary_labels.csv")
-    yb_test  = pd.read_csv("te_binary_labels.csv")
-    y_train = pd.read_csv("tr_attack_labels.csv")
-    y_test = pd.read_csv("te_attack_labels.csv")
+    X_train = pd.read_csv("../interim-files/tr_features_log_minmax_onehot_trans.csv")
+    X_test = pd.read_csv("../interim-files/te_features_log_minmax_onehot_trans.csv")
+    ye_train = pd.read_csv("../interim-files/tr_encoded_labels.csv")
+    ye_test  = pd.read_csv("../interim-files/te_encoded_labels.csv")
+    yb_train = pd.read_csv("../interim-files/tr_binary_labels.csv")
+    yb_test  = pd.read_csv("../interim-files/te_binary_labels.csv")
+    y_train = pd.read_csv("../interim-files/tr_attack_labels.csv")
+    y_test = pd.read_csv("../interim-files/te_attack_labels.csv")
 
 print ("X_train set has {} shape.".format(X_train.shape))
 print ("ye_train set has {} shape.".format(ye_train.shape))
@@ -189,8 +189,28 @@ print ("yb_test set has {} shape.".format(yb_test.shape))
 
 
 if do_pca_analysis:
+    from sklearn.decomposition import PCA
+
+    pca_2c = PCA(n_components=100, random_state=0)
+    pca_2c.fit(X_train)
+    Xr_train = pca_2c.transform(X_train)
+    Xr_test = pca_2c.transform(X_test)
 
 
+
+    # pca = PCA(n_components=2, random_state=0)
+    # pca.fit(good_data)
+    #
+    # # TODO: Transform the good data using the PCA fit above
+    # reduced_data = pca.transform(good_data)
+    #
+    # # TODO: Transform log_samples using the PCA fit above
+    # pca_samples = pca.transform(log_samples)
+    #
+    # # Create a DataFrame for the reduced data
+    # reduced_data = pd.DataFrame(reduced_data, columns=['Dimension 1', 'Dimension 2'])
+    #
+    # vs.biplot(good_data, reduced_data, pca)
 
 #######################################################################################################################
 # Create a Naive Predictor and Supervised Learning Models
@@ -238,9 +258,9 @@ if do_supervised_learning:
     # HINT: samples_100 is the entire training set i.e. len(y_train)
     # HINT: samples_10 is 10% of samples_100
     # HINT: samples_1 is 1% of samples_100
-    samples_100 = int(len(yb_train))
-    samples_10 = int(len(yb_train)/10)
-    samples_1 = int(len(yb_train)/100)
+    samples_100 = int(len(y_train))
+    samples_10 = int(len(y_train)/10)
+    samples_1 = int(len(y_train)/100)
 
     # Collect results on the learners
     results = {}
@@ -250,7 +270,7 @@ if do_supervised_learning:
         for i, samples in enumerate([samples_100]):
             print("sample size: ", samples)
             results[clf_name][i] = \
-            tp.train_predict(clf, samples, X_train, y_train, X_test, y_test)
+            tp.train_predict(clf, samples, Xr_train, y_train, Xr_test, y_test)
 
     # Run metrics visualization for the three supervised learning models chosen
     vs.evaluate(results, accuracy, fscore)
@@ -282,34 +302,34 @@ if do_lstm_rnn:
     #           batch_size=128)
     # score = model.evaluate(X_test_3d, ye_test.as_matrix(), batch_size=128)
 
-from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Activation
-from keras.optimizers import SGD
-from keras.utils import np_utils
+    from keras.models import Sequential
+    from keras.layers.core import Dense, Dropout, Activation
+    from keras.optimizers import SGD
+    from keras.utils import np_utils
 
-model = Sequential()
-model.add(LSTM(1, activation='relu', return_sequences=True, input_shape=(188,1)))
-model.add(Dropout(.2))
-model.add(LSTM(1, activation='relu'))
-# model.add(Flatten())
-model.add(Dense(10, activation='softmax'))
+    model = Sequential()
+    model.add(LSTM(1, activation='relu', return_sequences=True, input_shape=(188,1)))
+    model.add(Dropout(.2))
+    model.add(LSTM(1, activation='relu'))
+    # model.add(Flatten())
+    model.add(Dense(10, activation='softmax'))
 
-# Compiling the model
-model.compile(loss = 'categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.summary()
+    # Compiling the model
+    model.compile(loss = 'categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.summary()
 
-from keras.callbacks import ModelCheckpoint
+    from keras.callbacks import ModelCheckpoint
 
-# train the model
-checkpointer = ModelCheckpoint(filepath='MLP.weights.best.hdf5', verbose=1,
-                               save_best_only=True)
-hist = model.fit(x_train, y_train, batch_size=32, epochs=20,
-          validation_data=(x_valid, y_valid), callbacks=[checkpointer],
-          verbose=2, shuffle=True)
+    # train the model
+    checkpointer = ModelCheckpoint(filepath='MLP.weights.best.hdf5', verbose=1,
+                                   save_best_only=True)
+    hist = model.fit(x_train, y_train, batch_size=32, epochs=20,
+              validation_data=(x_valid, y_valid), callbacks=[checkpointer],
+              verbose=2, shuffle=True)
 
-model.fit(X_train_3d, ye_train, epochs=2, batch_size=100, verbose=0)
+    model.fit(X_train_3d, ye_train, epochs=2, batch_size=100, verbose=0)
 
-score = model.evaluate(X_train_3d, ye_train)
-print("\n Training Accuracy:", score)
-score = model.evaluate(X_test_3d, ye_test)
-print("\n Testing Accuracy:", score)
+    score = model.evaluate(X_train_3d, ye_train)
+    print("\n Training Accuracy:", score)
+    score = model.evaluate(X_test_3d, ye_test)
+    print("\n Testing Accuracy:", score)

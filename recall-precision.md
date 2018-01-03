@@ -63,3 +63,5 @@ The highest trusted detection is accomplished, when the accuracy value closes to
 ## References
 
 https://en.wikipedia.org/wiki/False_positive_rate
+
+https://stackoverflow.com/questions/31324218/scikit-learn-how-to-obtain-true-positive-true-negative-false-positive-and-fal
